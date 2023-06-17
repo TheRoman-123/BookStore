@@ -23,67 +23,67 @@ public class CartItemServiceImpl implements CartItemService {
 
 
     @Override
-    public CartItem addBookToCartItem(Book book, User user, int quantity) {
-        List<CartItem> cartItemList = findByShoppingCart(user.getShoppingCart());
+    public OrderItem addBookToCartItem(Book book, User user, int quantity) {
+        List<OrderItem> orderItemList = findByShoppingCart(user.getShoppingCart());
 
-        for (CartItem cartItem : cartItemList) {
-            if (book.getId() == cartItem.getBook().getId()) {
-                cartItem.setQuantity(cartItem.getQuantity() + quantity);
-                cartItem.setSubTotal(BigDecimal.valueOf(book.getOurPrice()).multiply(new BigDecimal(quantity)));
-                cartItemRepository.save(cartItem);
-                return cartItem;
+        for (OrderItem orderItem : orderItemList) {
+            if (book.getId() == orderItem.getBook().getId()) {
+                orderItem.setQuantity(orderItem.getQuantity() + quantity);
+                orderItem.setSubTotal(BigDecimal.valueOf(book.getOurPrice()).multiply(new BigDecimal(quantity)));
+                cartItemRepository.save(orderItem);
+                return orderItem;
             }
         }
 
-        CartItem cartItem = new CartItem();
-        cartItem.setQuantity(quantity);
-        cartItem.setSubTotal(BigDecimal.valueOf(book.getOurPrice()).multiply(new BigDecimal(quantity)));
-        cartItem.setBook(book);
-        cartItem.setShoppingCart(user.getShoppingCart());
+        OrderItem orderItem = new OrderItem();
+        orderItem.setQuantity(quantity);
+        orderItem.setSubTotal(BigDecimal.valueOf(book.getOurPrice()).multiply(new BigDecimal(quantity)));
+        orderItem.setBook(book);
+        orderItem.setShoppingCart(user.getShoppingCart());
 
-        cartItem = cartItemRepository.save(cartItem);
+        orderItem = cartItemRepository.save(orderItem);
 
         BookToCartItem bookToCartItem = new BookToCartItem();
         bookToCartItem.setBook(book);
-        bookToCartItem.setCartItem(cartItem);
+        bookToCartItem.setOrderItem(orderItem);
         bookToCartItemRepository.save(bookToCartItem);
 
-        return cartItem;
+        return orderItem;
     }
 
     @Override
-    public List<CartItem> findByShoppingCart(ShoppingCart shoppingCart) {
+    public List<OrderItem> findByShoppingCart(ShoppingCart shoppingCart) {
         return cartItemRepository.findByShoppingCart(shoppingCart);
     }
 
     @Override
-    public List<CartItem> findByOrder(Order order) {
+    public List<OrderItem> findByOrder(Order order) {
         return cartItemRepository.findByOrder(order);
     }
 
     @Override
-    public CartItem updateCartItem(CartItem cartItem) {
-        BigDecimal bigDecimal = BigDecimal.valueOf(cartItem.getBook().getOurPrice()).multiply(new BigDecimal(cartItem.getQuantity()));
+    public OrderItem updateCartItem(OrderItem orderItem) {
+        BigDecimal bigDecimal = BigDecimal.valueOf(orderItem.getBook().getOurPrice()).multiply(new BigDecimal(orderItem.getQuantity()));
         bigDecimal = bigDecimal.setScale(2, RoundingMode.HALF_UP);
-        cartItem.setSubTotal(bigDecimal);
-        cartItemRepository.save(cartItem);
-        return cartItem;
+        orderItem.setSubTotal(bigDecimal);
+        cartItemRepository.save(orderItem);
+        return orderItem;
     }
 
     @Transactional
     @Override
-    public void removeCartItem(CartItem cartItem) {
-        bookToCartItemRepository.deleteByCartItem(cartItem);
-        cartItemRepository.delete(cartItem);
+    public void removeCartItem(OrderItem orderItem) {
+        bookToCartItemRepository.deleteByCartItem(orderItem);
+        cartItemRepository.delete(orderItem);
     }
 
     @Override
-    public CartItem findById(int id) {
+    public OrderItem findById(int id) {
         return cartItemRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
     @Override
-    public CartItem save(CartItem cartItem) {
-        return cartItemRepository.save(cartItem);
+    public OrderItem save(OrderItem orderItem) {
+        return cartItemRepository.save(orderItem);
     }
 }

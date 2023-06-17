@@ -1,6 +1,6 @@
 package com.bookstore.controller;
 
-import com.bookstore.entity.CartItem;
+import com.bookstore.entity.OrderItem;
 import com.bookstore.entity.Order;
 import com.bookstore.entity.User;
 import com.bookstore.service.CartItemService;
@@ -35,12 +35,12 @@ public class OrderController {
     }
 
     @GetMapping("/getCartItemList")
-    public List<CartItem> getCartItemList(
+    public List<OrderItem> getCartItemList(
             @RequestBody String orderId,
             Principal principal
     ) {
         Order order = orderService.findOne(Integer.parseInt(orderId));
-        List<CartItem> cartItemList = cartItemService.findByOrder(order);
-        return cartItemList;
+        List<OrderItem> orderItemList = cartItemService.findByOrder(order);
+        return orderItemList;
     }
 }

@@ -6,17 +6,17 @@ import java.util.List;
 
 public interface CartItemService {
 
-    CartItem addBookToCartItem(Book book, User user, int quantity);
+    OrderItem addBookToCartItem(Book book, User user, int quantity);
 
-    List<CartItem> findByShoppingCart(ShoppingCart shoppingCart);
+    List<OrderItem> findByShoppingCart(ShoppingCart shoppingCart);
 
-    List<CartItem> findByOrder(Order order);
+    List<OrderItem> findByOrder(Order order);
 
-    CartItem updateCartItem(CartItem cartItem);
+    OrderItem updateCartItem(OrderItem orderItem);
 
-    void removeCartItem(CartItem cartItem);
+    void removeCartItem(OrderItem orderItem);
 
-    CartItem findById(int id);
+    OrderItem findById(int id);
 
-    CartItem save(CartItem cartItem);
+    OrderItem save(OrderItem orderItem);
 }

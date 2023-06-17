@@ -20,13 +20,18 @@ import java.util.Iterator;
 import java.util.List;
 
 @RestController
-@RequestMapping("/book")
+@RequestMapping("/books")
 @RequiredArgsConstructor
 public class BookController {
 
     private final BookService bookService;
 
-    @PostMapping("/add")
+    @GetMapping
+    public List<Book> getBookList() {
+        return bookService.findAll();
+    }
+
+    @PostMapping
     public Book addBook(@RequestBody Book book) {
         return bookService.save(book);
     }
@@ -55,10 +60,6 @@ public class BookController {
         }
     }
 
-    @GetMapping("/bookList")
-    public List<Book> getBookList() {
-        return bookService.findAll();
-    }
 
     @GetMapping("/{id}")
     public Book getBook(@PathVariable("id") int id) {

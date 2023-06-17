@@ -1,7 +1,6 @@
 package com.bookstore.service.impl;
 
-import com.bookstore.entity.CartItem;
-import com.bookstore.entity.ShoppingCart;
+import com.bookstore.entity.OrderItem;
 import com.bookstore.repository.ShoppingCartRepository;
 import com.bookstore.service.CartItemService;
 import com.bookstore.service.ShoppingCartService;
@@ -22,12 +21,12 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
     @Override
     public ShoppingCart update(ShoppingCart shoppingCart) {
         BigDecimal cartTotal = new BigDecimal(0);
-        List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+        List<OrderItem> orderItemList = cartItemService.findByShoppingCart(shoppingCart);
 
-        for (CartItem cartItem : cartItemList) {
-            if (cartItem.getBook().getInStockNumber() > 0) {
-                cartItemService.updateCartItem(cartItem);
-                cartTotal = cartTotal.add(cartItem.getSubTotal());
+        for (OrderItem orderItem : orderItemList) {
+            if (orderItem.getBook().getInStockNumber() > 0) {
+                cartItemService.updateCartItem(orderItem);
+                cartTotal = cartTotal.add(orderItem.getSubTotal());
             }
         }
         shoppingCart.setTotal(cartTotal);
@@ -38,10 +37,10 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 
     @Override
     public void clear(ShoppingCart shoppingCart) {
-        List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+        List<OrderItem> orderItemList = cartItemService.findByShoppingCart(shoppingCart);
 
-        for (CartItem cartItem : cartItemList) {
-            cartItemService.removeCartItem(cartItem);
+        for (OrderItem orderItem : orderItemList) {
+            cartItemService.removeCartItem(orderItem);
         }
 
         shoppingCart.setTotal(new BigDecimal(0));

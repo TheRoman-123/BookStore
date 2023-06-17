@@ -1,8 +1,7 @@
 package com.bookstore.controller;
 
 import com.bookstore.entity.Book;
-import com.bookstore.entity.CartItem;
-import com.bookstore.entity.ShoppingCart;
+import com.bookstore.entity.OrderItem;
 import com.bookstore.entity.User;
 import com.bookstore.service.BookService;
 import com.bookstore.service.CartItemService;
@@ -49,12 +48,12 @@ public class CartController {
     }
 
     @GetMapping("/cartItemList")
-    public List<CartItem> getCartItemList(Principal principal) {
+    public List<OrderItem> getCartItemList(Principal principal) {
         User user = userService.findByUsername(principal.getName());
         ShoppingCart shoppingCart = user.getShoppingCart();
-        List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+        List<OrderItem> orderItemList = cartItemService.findByShoppingCart(shoppingCart);
         shoppingCartService.update(shoppingCart);
-        return cartItemList;
+        return orderItemList;
     }
 
     @GetMapping("/shoppingCart")
@@ -68,8 +67,8 @@ public class CartController {
     //    @RequestMapping(value = "/removeCartItem", method = RequestMethod.POST)
     @DeleteMapping("/removeCartItem")
     public ResponseEntity<Void> removeCartItem(@RequestBody String id) {
-        CartItem cartItem = cartItemService.findById(Integer.parseInt(id));
-        cartItemService.removeCartItem(cartItem);
+        OrderItem orderItem = cartItemService.findById(Integer.parseInt(id));
+        cartItemService.removeCartItem(orderItem);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -78,9 +77,9 @@ public class CartController {
     public ResponseEntity<Void> updateCartItem(@RequestBody HashMap<String, String> mapper) {
         String cartItemId = mapper.get("id");
         String quantity = mapper.get("quantity");
-        CartItem cartItem = cartItemService.findById(Integer.parseInt(cartItemId));
-        cartItem.setQuantity(Integer.parseInt(quantity));
-        cartItemService.updateCartItem(cartItem);
+        OrderItem orderItem = cartItemService.findById(Integer.parseInt(cartItemId));
+        orderItem.setQuantity(Integer.parseInt(quantity));
+        cartItemService.updateCartItem(orderItem);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

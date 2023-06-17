@@ -1,6 +1,5 @@
 package com.bookstore.service.impl;
 
-import com.bookstore.entity.UserPayment;
 import com.bookstore.repository.UserPaymentRepository;
 import com.bookstore.service.UserPaymentService;
 import jakarta.persistence.EntityNotFoundException;

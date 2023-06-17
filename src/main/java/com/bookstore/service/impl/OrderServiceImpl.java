@@ -45,17 +45,17 @@ public class OrderServiceImpl implements OrderService {
         order.setPayment(payment);
         order.setOrderStatus("created");
 
-        List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+        List<OrderItem> orderItemList = cartItemService.findByShoppingCart(shoppingCart);
 
-        for (CartItem cartItem : cartItemList) {
-            Book book = cartItem.getBook();
-            cartItem.setOrder(order);
-            book.setInStockNumber(book.getInStockNumber() - cartItem.getQuantity());
+        for (OrderItem orderItem : orderItemList) {
+            Book book = orderItem.getBook();
+            orderItem.setOrder(order);
+            book.setInStockNumber(book.getInStockNumber() - orderItem.getQuantity());
         }
 
         LocalDateTime localDateTime = LocalDateTime.now();
         DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-        order.setCartItemList(cartItemList);
+        order.setOrderItemList(orderItemList);
         order.setOrderDate(timeFormatter.format(localDateTime));
         order.setOrderTotal(shoppingCart.getTotal().intValue());
         shippingAddress.setOrder(order);

@@ -27,39 +27,32 @@ public class User implements UserDetails, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private int id;
+    @Column(name = "user_id", nullable = false)
+    private Long id;
 
+    @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(length = 50)
-    private String firstName;
+    @Column(name = "firstname", length = 50)
+    private String firstname;
 
-    @Column(length = 50)
-    private String lastName;
+    @Column(name = "lastname", length = 50)
+    private String lastname;
 
-    @Column(length = 254, nullable = false)
+    @Column(name = "email", length = 254, nullable = false)
     private String email;
 
-    @Column(length = 8)
+    @Column(name = "phone", length = 50)
     private String phone;
 
+    @Column(name = "enabled", nullable = false, columnDefinition = "boolean default true")
     private boolean enabled = true;
 
     @Enumerated(EnumType.STRING)
     private Role role;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    private ShoppingCart shoppingCart;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<UserShipping> userShippingList;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    @JsonIgnore
-    private List<UserPayment> userPaymentList;
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore

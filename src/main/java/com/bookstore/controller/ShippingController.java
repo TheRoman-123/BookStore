@@ -1,7 +1,6 @@
 package com.bookstore.controller;
 
 import com.bookstore.entity.User;
-import com.bookstore.entity.UserShipping;
 import com.bookstore.service.UserService;
 import com.bookstore.service.UserShippingService;
 import lombok.RequiredArgsConstructor;

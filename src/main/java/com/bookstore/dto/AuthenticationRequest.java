@@ -1,6 +1,5 @@
 package com.bookstore.dto;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -15,9 +14,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationRequest {
 
-    @Email(message = "Provide valid email")
-    @Size(min = 6, max = 254, message = "Email too long")
-    private String email;
+    @NotBlank(message = "Please provide username or email")
+    @Size(max = 254, message = "Provided username or email too long")
+    private String emailOrUsername;
 
     @NotBlank(message = "Please provide a password")
     @Size(min = 8, max = 50, message = "Password must be at least 8 characters")

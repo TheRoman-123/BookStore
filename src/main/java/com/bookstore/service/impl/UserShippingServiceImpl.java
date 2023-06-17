@@ -1,6 +1,5 @@
 package com.bookstore.service.impl;
 
-import com.bookstore.entity.UserShipping;
 import com.bookstore.repository.UserShippingRepository;
 import com.bookstore.service.UserShippingService;
 import jakarta.persistence.EntityNotFoundException;

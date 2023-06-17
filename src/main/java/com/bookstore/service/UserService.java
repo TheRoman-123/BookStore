@@ -1,9 +1,6 @@
 package com.bookstore.service;
 
 import com.bookstore.entity.User;
-import com.bookstore.entity.UserBilling;
-import com.bookstore.entity.UserPayment;
-import com.bookstore.entity.UserShipping;
 
 public interface UserService {
 

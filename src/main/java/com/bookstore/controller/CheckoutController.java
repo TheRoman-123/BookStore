@@ -42,7 +42,7 @@ public class CheckoutController {
         Payment payment = objectMapper.convertValue(mapper.get("payment"), Payment.class);
 
         ShoppingCart shoppingCart = userService.findByUsername(principal.getName()).getShoppingCart();
-        List<CartItem> cartItemList = cartItemService.findByShoppingCart(shoppingCart);
+        List<OrderItem> orderItemList = cartItemService.findByShoppingCart(shoppingCart);
         User user = userService.findByUsername(principal.getName());
         Order order = orderService.createOrder(shoppingCart, shippingAddress, billingAddress, payment, user);
 
