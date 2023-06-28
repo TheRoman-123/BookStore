@@ -1,9 +1,9 @@
-package com.bookstore.service.impl;
+package com.bookstore.service;
 
 import com.bookstore.config.JwtService;
-import com.bookstore.dto.AuthenticationRequest;
-import com.bookstore.dto.AuthenticationResponse;
-import com.bookstore.dto.RegisterRequest;
+import com.bookstore.dto.auth.AuthenticationRequest;
+import com.bookstore.dto.auth.AuthenticationResponse;
+import com.bookstore.dto.auth.RegisterRequest;
 import com.bookstore.entity.User;
 import com.bookstore.entity.security.Role;
 import com.bookstore.exception.UserExistsException;
@@ -14,8 +14,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor

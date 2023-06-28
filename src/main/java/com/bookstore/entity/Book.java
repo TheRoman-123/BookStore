@@ -44,14 +44,18 @@ public class Book implements Serializable {
     @Column(name = "publication_date", columnDefinition = "DATE")
     private LocalDate publicationDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "publisher_id")
     @ToString.Exclude
     private Publisher publisher;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
     @ToString.Exclude
     private Set<Language> languages;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "books")
+    @ToString.Exclude
+    private Set<LiteraryWork> literaryWorks;
 
     @Override
     public boolean equals(Object o) {

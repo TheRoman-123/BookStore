@@ -11,6 +11,8 @@ import java.util.Objects;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Language {
     @EmbeddedId
     private LanguageCode languageCode;
@@ -18,6 +20,10 @@ public class Language {
     @ManyToOne(optional = false)
     @MapsId("bookId") // maps bookId attribute of embedded id
     private Book book;
+
+    public String languageCode() {
+        return languageCode.toString();
+    }
 
     @Override
     public boolean equals(Object o) {

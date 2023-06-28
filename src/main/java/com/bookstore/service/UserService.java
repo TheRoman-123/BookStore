@@ -1,25 +1,44 @@
 package com.bookstore.service;
 
+import com.bookstore.dto.UserDto;
 import com.bookstore.entity.User;
+import com.bookstore.exception.UserExistsException;
+import com.bookstore.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-public interface UserService {
 
-    User createUser(User user);
+@Service
+@RequiredArgsConstructor
+@Log4j2
+public class UserService implements UserDetailsService {
 
-    User findByUsername(String username);
+    private final UserRepository userRepository;
 
-    User findByEmail(String email);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username);
+        if (user == null) {
+            log.warn("Username {} not found", username);
+            throw new UsernameNotFoundException("Username " + username + " not found");
+        }
+        return user;
+    }
 
-    User findById(int id);
 
-    User save(User user);
+    public Long createUser(UserDto userDto) {
+        if (userRepository.existsByUsername(userDto.getUsername())) {
+            throw new UserExistsException();
+        }
 
-    void updateShipping(UserShipping userShipping, User user);
+        User user = userDto.toUser();
 
-    void setDefaultShipping(int shippingId, User user);
+        userRepository.save(user);
 
-    void updateUserPayment(UserPayment userPayment, UserBilling userBilling, User user);
-
-    void setDefaultUserPayment(int userPaymentId, User user);
-
+        return user.getId();
+    }
 }

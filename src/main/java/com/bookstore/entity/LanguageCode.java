@@ -2,6 +2,8 @@ package com.bookstore.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 
 import java.io.Serial;
@@ -9,6 +11,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
 public class LanguageCode implements Serializable {
     @Serial
     private static final long serialVersionUID = 54810L;
@@ -16,7 +20,6 @@ public class LanguageCode implements Serializable {
     @Column(name = "language_code", nullable = false, length = 2, columnDefinition = "CHAR")
     private String languageCode; // two characters representation of each language
 
-//    @Column(name = "book_id", nullable = false)
     private Long bookId; // foreign key to Book entity
 
     @Override
@@ -31,5 +34,10 @@ public class LanguageCode implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(languageCode, bookId);
+    }
+
+    @Override
+    public String toString() {
+        return languageCode;
     }
 }

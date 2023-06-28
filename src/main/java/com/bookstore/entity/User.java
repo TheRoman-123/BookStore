@@ -17,10 +17,10 @@ import java.util.Set;
 @Entity
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
 @Table(name = "_user")
+@AllArgsConstructor
 public class User implements UserDetails, Serializable {
     @Serial
     private static final long serialVersionUID = 369963L;

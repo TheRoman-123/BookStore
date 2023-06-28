@@ -12,6 +12,8 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Publisher {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,6 +26,10 @@ public class Publisher {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "publisher")
     @ToString.Exclude
     private Set<Book> books;
+
+    public Publisher(String publisherName) {
+        this.publisherName = publisherName;
+    }
 
     @Override
     public boolean equals(Object o) {

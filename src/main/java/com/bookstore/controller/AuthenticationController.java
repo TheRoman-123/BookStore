@@ -1,9 +1,9 @@
 package com.bookstore.controller;
 
-import com.bookstore.dto.AuthenticationRequest;
-import com.bookstore.dto.AuthenticationResponse;
-import com.bookstore.dto.RegisterRequest;
-import com.bookstore.service.impl.AuthenticationService;
+import com.bookstore.dto.auth.AuthenticationRequest;
+import com.bookstore.dto.auth.AuthenticationResponse;
+import com.bookstore.dto.auth.RegisterRequest;
+import com.bookstore.service.AuthenticationService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

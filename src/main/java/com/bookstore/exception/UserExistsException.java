@@ -2,7 +2,7 @@ package com.bookstore.exception;
 
 import jakarta.persistence.EntityExistsException;
 
-public class UserExistsException extends EntityExistsException {
+public final class UserExistsException extends EntityExistsException {
     public UserExistsException() {
     }
 
@@ -17,4 +17,6 @@ public class UserExistsException extends EntityExistsException {
     public UserExistsException(Throwable cause) {
         super(cause);
     }
+
+
 }

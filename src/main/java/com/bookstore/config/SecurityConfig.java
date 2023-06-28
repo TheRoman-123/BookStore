@@ -1,15 +1,12 @@
 package com.bookstore.config;
 
 import com.bookstore.config.filters.JwtAuthenticationFilter;
-import com.bookstore.service.UserSecurityService;
+import com.bookstore.config.filters.RequestFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,8 +14,11 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static com.bookstore.config.SecurityUtility.passwordEncoder;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +27,7 @@ import static com.bookstore.config.SecurityUtility.passwordEncoder;
 public class SecurityConfig {
 
     private static final String[] PUBLIC_MATCHERS = {
+            "/auth/**",
             "/css/**",
             "/js/**",
             "/image/**",
@@ -35,6 +36,7 @@ public class SecurityConfig {
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
+    private final RequestFilter requestFilter;
     private final AuthenticationProvider authenticationProvider;
 
     @Bean
@@ -48,10 +50,26 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider)
+//                .addFilter(requestFilter)
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(AbstractHttpConfigurer::disable)
+                .cors(config -> config.configurationSource(corsConfigurationSource()))
                 .httpBasic(Customizer.withDefaults());
         return http.build();
+    }
+
+    CorsConfigurationSource corsConfigurationSource() {
+        final var configuration = new CorsConfiguration();
+
+        configuration.addAllowedOriginPattern("*");
+
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setExposedHeaders(List.of("*"));
+
+        final var source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 }

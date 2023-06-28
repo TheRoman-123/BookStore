@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "order")
+@Table(name = "_order")
 @Getter
 @Setter
 @ToString

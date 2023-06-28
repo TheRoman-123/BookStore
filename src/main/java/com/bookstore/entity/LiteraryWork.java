@@ -9,9 +9,12 @@ import java.util.Set;
 
 @Entity
 @Table(name = "literary_work")
+@Builder
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class LiteraryWork {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,7 +27,7 @@ public class LiteraryWork {
     @Column(name = "year_written")
     private Short yearWritten;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
     @ToString.Exclude
     private Author author;

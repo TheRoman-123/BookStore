@@ -1,13 +1,15 @@
 package com.bookstore;
 
 import com.bookstore.config.SecurityUtility;
-import com.bookstore.entity.User;
+import com.bookstore.dto.UserDto;
 import com.bookstore.entity.security.Role;
 import com.bookstore.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+import static com.bookstore.config.SecurityUtility.passwordEncoder;
 
 @SpringBootApplication
 @RequiredArgsConstructor
@@ -21,24 +23,44 @@ public class BookStoreApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        User user1 = new User();
-        user1.setFirstName("Test");
-        user1.setLastName("Test");
+
+        UserDto user1 = new UserDto();
+        user1.setFirstname("Test");
+        user1.setLastname("Test");
         user1.setUsername("test");
         user1.setPassword(SecurityUtility.passwordEncoder().encode("Bca1234$"));
         user1.setEmail("ewerdfsd@gmail.com");
         user1.setRole(Role.USER);
 
-        userService.createUser(user1);
+        try {
+            userService.createUser(user1);
+        } catch (Exception ignored) {}
 
-        User user2 = new User();
-        user2.setFirstName("Admin");
-        user2.setLastName("Admin");
+        UserDto user2 = new UserDto();
+        user2.setFirstname("Admin");
+        user2.setLastname("Admin");
         user2.setUsername("admin");
         user2.setPassword(SecurityUtility.passwordEncoder().encode("Abc1234$"));
         user2.setEmail("efgfdfgbgggbggcx@gmail.com");
         user2.setRole(Role.ADMIN);
 
-        userService.createUser(user2);
+        try {
+            userService.createUser(user2);
+        } catch (Exception ignored) {}
+
+        UserDto user = UserDto.builder()
+                .username("roman")
+                .email("roma.tcheloweck@gmail.com")
+                .password(passwordEncoder().encode("Abc1234$"))
+                .firstname("Roman")
+                .lastname("Rudi")
+                .phone("+37360147036")
+                .enabled(true)
+                .role(Role.ADMIN)
+                .build();
+
+        try {
+            userService.createUser(user);
+        } catch (Exception ignored) {}
     }
 }

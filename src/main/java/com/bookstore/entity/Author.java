@@ -1,7 +1,9 @@
 package com.bookstore.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import java.util.Objects;
@@ -36,5 +38,11 @@ public class Author {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    public Author() {}
+
+    public Author(String name) {
+        this.name = name;
     }
 }
